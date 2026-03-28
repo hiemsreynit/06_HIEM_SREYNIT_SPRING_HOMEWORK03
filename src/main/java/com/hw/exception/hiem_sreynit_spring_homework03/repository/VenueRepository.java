@@ -1,10 +1,7 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.repository;
 
 import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Venue;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -20,4 +17,10 @@ public interface VenueRepository {
         SELECT * FROM venues OFFSET #{offset} LIMIT #{size};
     """)
     List<Venue> getAllVenues(int offset, Integer size);
+
+    @ResultMap("venueMapper")
+    @Select("""
+        SELECT * FROM venues WHERE venue_id = #{venueId};
+    """)
+    Venue getVenueById(Integer venueId);
 }

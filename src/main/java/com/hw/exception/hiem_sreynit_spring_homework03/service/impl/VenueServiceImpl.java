@@ -21,4 +21,9 @@ public class VenueServiceImpl implements VenueService {
 
         return venueRepository.getAllVenues(offset, size);
     }
+
+    @Override
+    public Venue getVenueById(Integer venueId) {
+        return venueRepository.getVenueById(venueId);
+    }
 }
