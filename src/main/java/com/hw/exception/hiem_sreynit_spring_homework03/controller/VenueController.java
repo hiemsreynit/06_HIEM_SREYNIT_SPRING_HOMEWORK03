@@ -3,7 +3,6 @@ package com.hw.exception.hiem_sreynit_spring_homework03.controller;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.dto.response.ApiResponse;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Venue;
 import com.hw.exception.hiem_sreynit_spring_homework03.service.VenueService;
-import com.hw.exception.hiem_sreynit_spring_homework03.service.impl.VenueServiceImpl;
 import com.hw.exception.hiem_sreynit_spring_homework03.utils.TimeStampFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ public class VenueController {
     private final VenueService venueService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Venue>>> getAllVenues (
+    public ResponseEntity<ApiResponse<List<Venue>>> getAllVenues(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size
     ) {
@@ -35,26 +34,17 @@ public class VenueController {
     }
 
     @GetMapping("/{venue-id}")
-    public ResponseEntity<ApiResponse<Venue>> getVenueById (
+    public ResponseEntity<ApiResponse<Venue>> getVenueById(
             @PathVariable("venue-id") Integer venueId
     ) {
         Venue venue = venueService.getVenueById(venueId);
-
-        if (!(venue == null)) {
-            return ResponseEntity.ok(ApiResponse.<Venue>builder().
-                    success(true).
-                    status(HttpStatus.OK).
-                    message("Venue with ID " + venueId + " retrieved successfully.").
-                    payload(venue).
-                    timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
-            );
-        } else {
-            return ResponseEntity.ok(ApiResponse.<Venue>builder().
-                    success(false).
-                    status(HttpStatus.NOT_FOUND).
-                    message("No Venue found with ID " + venueId).
-                    timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
-            );
-        }
+        return ResponseEntity.ok(ApiResponse.<Venue>builder().
+                success(true).
+                status(HttpStatus.OK).
+                message("Venue with ID " + venueId + " retrieved successfully.").
+                payload(venue).
+                timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
+        );
     }
 }
+

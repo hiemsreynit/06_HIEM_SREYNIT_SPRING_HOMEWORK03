@@ -1,5 +1,6 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.service.impl;
 
+import com.hw.exception.hiem_sreynit_spring_homework03.exception.NotFoundException;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Venue;
 import com.hw.exception.hiem_sreynit_spring_homework03.repository.VenueRepository;
 import com.hw.exception.hiem_sreynit_spring_homework03.service.VenueService;
@@ -16,14 +17,23 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public List<Venue> getAllVenues(Integer page, Integer size) {
-
         int offset = size * (page - 1);
+        List<Venue> venue = venueRepository.getAllVenues(offset, size);
 
-        return venueRepository.getAllVenues(offset, size);
+        if (venue == null) {
+            throw new NotFoundException("No data for venue.");
+        }
+
+        return venue;
     }
 
     @Override
     public Venue getVenueById(Integer venueId) {
-        return venueRepository.getVenueById(venueId);
+        Venue venue = venueRepository.getVenueById(venueId);
+
+        if (venue == null) {
+            throw new NotFoundException("No venue found with ID " + venueId);
+        }
+        return venue;
     }
 }
