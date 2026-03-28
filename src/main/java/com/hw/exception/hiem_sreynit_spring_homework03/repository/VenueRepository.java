@@ -1,5 +1,6 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.repository;
 
+import com.hw.exception.hiem_sreynit_spring_homework03.model.dto.request.VenueRequest;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Venue;
 import org.apache.ibatis.annotations.*;
 
@@ -29,4 +30,18 @@ public interface VenueRepository {
         DELETE FROM venues WHERE venue_id = #{venueId};
     """)
     void deleteVenueById(Integer venueId);
+
+
+    @ResultMap("venueMapper")
+    @Update("""
+        UPDATE venues SET venue_name = #{req.venueName}, location = #{req.location} WHERE venue_id = #{venueId};
+    """)
+    void updateVenueById(Integer venueId,@Param("req") VenueRequest request);
+
+
+    @ResultMap("venueMapper")
+    @Select("""
+        INSERT INTO venues VALUES (default, #{req.venueName}, #{req.location}) RETURNING *;
+    """)
+    Venue createVenue(@Param("req") VenueRequest request);
 }

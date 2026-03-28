@@ -1,5 +1,6 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.controller;
 
+import com.hw.exception.hiem_sreynit_spring_homework03.model.dto.request.VenueRequest;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.dto.response.ApiResponse;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Venue;
 import com.hw.exception.hiem_sreynit_spring_homework03.service.VenueService;
@@ -48,7 +49,7 @@ public class VenueController {
     }
 
     @DeleteMapping("/{venue-id}")
-    public ResponseEntity<ApiResponse<Venue>> deleteVenueById (
+    public ResponseEntity<ApiResponse<Venue>> deleteVenueById(
             @PathVariable("venue-id") Integer venueId
     ) {
         venueService.deleteVenueById(venueId);
@@ -57,6 +58,37 @@ public class VenueController {
                 success(true).
                 status(HttpStatus.OK).
                 message("Venue with ID " + venueId + " deleted successfully.").
+                timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
+        );
+    }
+
+    @PutMapping("/{venue-id}")
+    public ResponseEntity<ApiResponse<Venue>> updateVenueById(
+            @PathVariable("venue-id") Integer venueId,
+            @RequestBody VenueRequest request
+    ) {
+        Venue venue = venueService.updateVenueById(venueId, request);
+
+        return ResponseEntity.ok(ApiResponse.<Venue>builder().
+                success(true).
+                status(HttpStatus.ACCEPTED).
+                message("Venue with ID " + venueId + " updated successfully.").
+                payload(venue).
+                timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Venue>> createVenue (
+            @RequestBody VenueRequest request
+    ) {
+        Venue newVenue = venueService.createVenue(request);
+
+        return ResponseEntity.ok(ApiResponse.<Venue>builder().
+                success(true).
+                status(HttpStatus.CREATED).
+                message("Venue created successfully.").
+                payload(newVenue).
                 timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
         );
     }

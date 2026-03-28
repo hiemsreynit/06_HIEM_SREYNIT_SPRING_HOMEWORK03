@@ -1,6 +1,7 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.service.impl;
 
 import com.hw.exception.hiem_sreynit_spring_homework03.exception.NotFoundException;
+import com.hw.exception.hiem_sreynit_spring_homework03.model.dto.request.VenueRequest;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Venue;
 import com.hw.exception.hiem_sreynit_spring_homework03.repository.VenueRepository;
 import com.hw.exception.hiem_sreynit_spring_homework03.service.VenueService;
@@ -47,5 +48,22 @@ public class VenueServiceImpl implements VenueService {
 
         venueRepository.deleteVenueById(venueId);
 
+    }
+
+    @Override
+    public Venue updateVenueById(Integer venueId, VenueRequest request) {
+        Venue venue = venueRepository.getVenueById(venueId);
+
+        if (venue == null) {
+            throw new NotFoundException("No venue found with ID " + venueId);
+        }
+
+        venueRepository.updateVenueById(venueId, request);
+        return venue;
+    }
+
+    @Override
+    public Venue createVenue(VenueRequest request) {
+        return venueRepository.createVenue(request);
     }
 }
