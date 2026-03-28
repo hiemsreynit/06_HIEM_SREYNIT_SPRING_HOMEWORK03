@@ -1,4 +1,11 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.service;
 
+import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Venue;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
 public interface VenueService {
+    List<Venue> getAllVenues(Integer page, Integer size);
 }
