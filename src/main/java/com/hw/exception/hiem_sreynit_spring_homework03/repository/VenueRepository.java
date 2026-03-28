@@ -23,4 +23,10 @@ public interface VenueRepository {
         SELECT * FROM venues WHERE venue_id = #{venueId};
     """)
     Venue getVenueById(Integer venueId);
+
+    @ResultMap("venueMapper")
+    @Select("""
+        DELETE FROM venues WHERE venue_id = #{venueId};
+    """)
+    void deleteVenueById(Integer venueId);
 }

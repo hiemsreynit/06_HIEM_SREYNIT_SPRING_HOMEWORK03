@@ -36,4 +36,16 @@ public class VenueServiceImpl implements VenueService {
         }
         return venue;
     }
+
+    @Override
+    public void deleteVenueById(Integer venueId) {
+        Venue venue = venueRepository.getVenueById(venueId);
+
+        if (venue == null) {
+            throw new NotFoundException("No venue found with ID " + venueId);
+        }
+
+        venueRepository.deleteVenueById(venueId);
+
+    }
 }

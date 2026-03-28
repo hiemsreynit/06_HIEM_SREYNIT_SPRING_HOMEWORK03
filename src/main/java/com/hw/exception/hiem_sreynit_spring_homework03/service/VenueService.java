@@ -10,4 +10,6 @@ public interface VenueService {
     List<Venue> getAllVenues(Integer page, Integer size);
 
     Venue getVenueById(Integer venueId);
+
+    void deleteVenueById(Integer venueId);
 }

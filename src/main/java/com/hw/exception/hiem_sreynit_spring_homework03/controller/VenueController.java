@@ -46,5 +46,19 @@ public class VenueController {
                 timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
         );
     }
+
+    @DeleteMapping("/{venue-id}")
+    public ResponseEntity<ApiResponse<Venue>> deleteVenueById (
+            @PathVariable("venue-id") Integer venueId
+    ) {
+        venueService.deleteVenueById(venueId);
+
+        return ResponseEntity.ok(ApiResponse.<Venue>builder().
+                success(true).
+                status(HttpStatus.OK).
+                message("Venue with ID " + venueId + " deleted successfully.").
+                timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
+        );
+    }
 }
 
