@@ -59,7 +59,8 @@ public class VenueServiceImpl implements VenueService {
         }
 
         venueRepository.updateVenueById(venueId, request);
-        return venue;
+
+        return venueRepository.getVenueById(venue.getVenueId());
     }
 
     @Override
