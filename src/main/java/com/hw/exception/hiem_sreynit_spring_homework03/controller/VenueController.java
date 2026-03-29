@@ -54,7 +54,7 @@ public class VenueController {
     ) {
         venueService.deleteVenueById(venueId);
 
-        return ResponseEntity.ok(ApiResponse.<Venue>builder().
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.<Venue>builder().
                 success(true).
                 status(HttpStatus.OK).
                 message("Venue with ID " + venueId + " deleted successfully.").
@@ -69,7 +69,7 @@ public class VenueController {
     ) {
         Venue venue = venueService.updateVenueById(venueId, request);
 
-        return ResponseEntity.ok(ApiResponse.<Venue>builder().
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(ApiResponse.<Venue>builder().
                 success(true).
                 status(HttpStatus.ACCEPTED).
                 message("Venue with ID " + venueId + " updated successfully.").
@@ -84,7 +84,7 @@ public class VenueController {
     ) {
         Venue newVenue = venueService.createVenue(request);
 
-        return ResponseEntity.ok(ApiResponse.<Venue>builder().
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.<Venue>builder().
                 success(true).
                 status(HttpStatus.CREATED).
                 message("Venue created successfully.").

@@ -57,7 +57,7 @@ public class AttendeeController {
     ) {
         Attendee attendee = attendeeService.createAttendee(request);
 
-        return ResponseEntity.ok(ApiResponse.<Attendee>builder().
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.<Attendee>builder().
                 success(true).
                 status(HttpStatus.OK).
                 message("New Attendee created successfully.").
@@ -70,9 +70,9 @@ public class AttendeeController {
     public ResponseEntity<ApiResponse<Attendee>> deleteAttendeeById (
             @PathVariable("attendee-id") Integer attendeeId
     ) {
-        Attendee attendee = attendeeService.deleteAttendeeById(attendeeId);
+        attendeeService.deleteAttendeeById(attendeeId);
 
-        return ResponseEntity.ok(ApiResponse.<Attendee>builder().
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.<Attendee>builder().
                 success(true).
                 status(HttpStatus.NO_CONTENT).
                 message("Attendee with ID " + attendeeId + " deleted successfully.").
@@ -87,7 +87,7 @@ public class AttendeeController {
     ) {
         Attendee attendee = attendeeService.updateAttendeeById(attendeeId, request);
 
-        return ResponseEntity.ok(ApiResponse.<Attendee>builder().
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(ApiResponse.<Attendee>builder().
                 success(true).
                 status(HttpStatus.ACCEPTED).
                 payload(attendee).

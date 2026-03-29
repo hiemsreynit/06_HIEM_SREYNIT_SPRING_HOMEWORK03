@@ -58,3 +58,13 @@ VALUES (1, 3),
        (5, 12),
        (3, 8),
        (10, 2);
+
+SELECT * FROM attendees a
+INNER JOIN event_attendee ea ON a.attendee_id = ea.attendee_id
+WHERE ea.event_id = 1;
+
+SELECT * FROM events;
+
+DELETE FROM events WHERE event_id BETWEEN 18 AND 21;
+
+ALTER TABLE events ADD CONSTRAINT uk_event_name_date UNIQUE (event_name, event_date);
