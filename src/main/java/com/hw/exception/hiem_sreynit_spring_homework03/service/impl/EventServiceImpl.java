@@ -80,4 +80,15 @@ public class EventServiceImpl implements EventService {
 
         return eventRepository.getEventById(event.getEventId());
     }
+
+    @Override
+    public Event deleteEventById(Integer eventId) {
+        Event event = eventRepository.getEventById(eventId);
+
+        if (event == null) {
+            throw new NotFoundException("No event found with ID " + eventId + ".");
+        }
+
+        return eventRepository.deleteEventById(eventId);
+    }
 }

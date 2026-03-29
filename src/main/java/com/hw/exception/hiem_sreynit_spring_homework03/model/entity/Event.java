@@ -1,5 +1,6 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -66,4 +66,17 @@ public class EventController {
                 timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
         );
     }
+
+    @DeleteMapping("/{event-id}")
+    public ResponseEntity<ApiResponse<Event>> deleteEventById (
+            @PathVariable("event-id") Integer eventId
+    ) {
+        Event event = eventService.deleteEventById(eventId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.<Event>builder().
+                status(HttpStatus.OK).
+                message("Event ID " + event + " deleted successfully.").
+                timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
+        );
+    }
 }

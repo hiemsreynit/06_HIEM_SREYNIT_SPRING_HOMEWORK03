@@ -49,4 +49,11 @@ public interface EventRepository {
                     AND event_date = #{date}::date)
             """)
     Boolean existsByEventNameAndEventDate(@Param("name") String eventName, @Param("date") String eventDate);
+
+
+    @ResultMap("eventMapper")
+    @Select("""
+        DELETE FROM events WHERE event_id = #{eventId};
+    """)
+    Event deleteEventById(Integer eventId);
 }
