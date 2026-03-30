@@ -7,6 +7,7 @@ import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Attendee;
 import com.hw.exception.hiem_sreynit_spring_homework03.repository.AttendeeRepository;
 import com.hw.exception.hiem_sreynit_spring_homework03.service.AttendeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +44,18 @@ public class AttendeeServiceImpl implements AttendeeService {
 
     @Override
     public Attendee createAttendee(AttendeeRequest request) {
+        if (Boolean.TRUE.equals(attendeeRepository.existByNameAndEmail(request.getAttendeeName(), request.getEmail()))) {
+            throw new DuplicateKeyException("Attendee name is already exists with this email.");
+        }
+
+        if (Boolean.TRUE.equals(attendeeRepository.existByName(request.getAttendeeName()))) {
+            throw new DuplicateKeyException("Attendee name is already exist.");
+        }
+
+        if (Boolean.TRUE.equals(attendeeRepository.existByEmail(request.getEmail()))) {
+            throw new DuplicateKeyException("Email already exist.");
+        }
+
         return attendeeRepository.createAttendee(request);
     }
 

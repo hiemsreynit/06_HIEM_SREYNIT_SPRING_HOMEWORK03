@@ -28,4 +28,11 @@ public interface EventAttendeeRepository {
     """)
     void insertIntoEventAndAttendee(Integer eventId, Integer attendeeId);
 
+
+    @ResultMap("eventAttendeeMapper")
+    @Delete("""
+        DELETE FROM event_attendee WHERE event_id = #{eventId};
+    """)
+    void deleteAttendeeByEventId(Integer eventId);
+
 }

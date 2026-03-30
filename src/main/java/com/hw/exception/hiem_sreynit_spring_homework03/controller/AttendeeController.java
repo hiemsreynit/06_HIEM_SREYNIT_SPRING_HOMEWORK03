@@ -72,9 +72,9 @@ public class AttendeeController {
     ) {
         attendeeService.deleteAttendeeById(attendeeId);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.<Attendee>builder().
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.<Attendee>builder().
                 success(true).
-                status(HttpStatus.NO_CONTENT).
+                status(HttpStatus.OK).
                 message("Attendee with ID " + attendeeId + " deleted successfully.").
                 timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
         );

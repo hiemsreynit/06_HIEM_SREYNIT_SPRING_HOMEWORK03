@@ -79,4 +79,20 @@ public class EventController {
                 timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
         );
     }
+
+    @PutMapping("/{event-id}")
+    public ResponseEntity<ApiResponse<Event>> updateEventById (
+            @PathVariable("event-id") Integer eventId,
+            @RequestBody EventRequest request
+    ) {
+        Event event = eventService.updateEventById(eventId, request);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(ApiResponse.<Event>builder().
+                success(true).
+                status(HttpStatus.ACCEPTED).
+                message("Event created successfully.").
+                payload(event).
+                timeStamp(TimeStampFormatter.formatter.format(Instant.now())).build()
+        );
+    }
 }

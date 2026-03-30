@@ -9,7 +9,6 @@ import java.util.List;
 @Mapper
 public interface AttendeeRepository {
 
-
     @Results(id = "attendeeMapper", value = {
             @Result(property = "attendeeId", column = "attendee_id"),
             @Result(property = "attendeeName", column = "attendee_name")
@@ -47,4 +46,32 @@ public interface AttendeeRepository {
         UPDATE attendees SET attendee_name = #{req.attendeeName}, email = #{req.email} WHERE attendee_id = #{attendeeId} RETURNING *;
     """)
     void updateAttendeeById(Integer attendeeId, @Param("req") AttendeeRequest request);
+
+
+    @ResultMap("attendeeMapper")
+    @Select("""
+                SELECT EXISTS(
+                SELECT 1 FROM attendees
+                WHERE attendee_name = #{name}
+                AND email = #{email})      
+            """)
+    Boolean existByNameAndEmail(@Param("name") String attendeeName, @Param("email") String email);
+
+
+    @ResultMap("attendeeMapper")
+    @Select("""
+        SELECT EXISTS(
+            SELECT 1 FROM attendees
+            WHERE attendee_name = #{name})
+    """)
+    Boolean existByName(@Param("name") String attendeeName);
+
+
+    @ResultMap("attendeeMapper")
+    @Select("""
+        SELECT EXISTS(
+            SELECT 1 FROM attendees
+            WHERE email = #{email})
+    """)
+    Boolean existByEmail(@Param("email") String email);
 }

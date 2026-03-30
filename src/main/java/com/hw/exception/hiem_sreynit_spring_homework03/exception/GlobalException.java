@@ -2,7 +2,6 @@ package com.hw.exception.hiem_sreynit_spring_homework03.exception;
 
 import com.hw.exception.hiem_sreynit_spring_homework03.utils.TimeStampFormatter;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,18 +24,19 @@ public class GlobalException {
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
-    public ProblemDetail handleDuplicateKeyException(DuplicateKeyException e, HttpServletRequest request) {
-        String detail = "Event name already exists on this date.";
+    public ProblemDetail handleDuplicateKeyException(Exception e, HttpServletRequest request) {
+        String message = e.getMessage();
 
-        if (e.getMessage() != null && e.getMessage().contains("uk_event_name_date")) {
-            detail = "Event name already exists on this date.";
+        if (e instanceof DuplicateKeyException) {
+            message = "Attendee name is already exist.";
         }
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, detail);
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, message);
         problemDetail.setProperty("timestamp", TimeStampFormatter.formatter.format(Instant.now()));
-        problemDetail.setType(URI.create("https://localhost:8080/errors/conflict"));
+        problemDetail.setType(URI.create("https://localhost:8080/errors/duplicate-date"));
         problemDetail.setTitle("Conflict");
         problemDetail.setInstance(URI.create(request.getRequestURI()));
+
         return problemDetail;
     }
-
 }
+

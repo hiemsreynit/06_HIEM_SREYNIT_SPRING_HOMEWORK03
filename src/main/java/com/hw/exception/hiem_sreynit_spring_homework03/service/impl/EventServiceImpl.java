@@ -1,5 +1,6 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.service.impl;
 
+import com.hw.exception.hiem_sreynit_spring_homework03.exception.DuplicateKeyException;
 import com.hw.exception.hiem_sreynit_spring_homework03.exception.NotFoundException;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.dto.request.EventRequest;
 import com.hw.exception.hiem_sreynit_spring_homework03.model.entity.Attendee;
@@ -9,7 +10,6 @@ import com.hw.exception.hiem_sreynit_spring_homework03.repository.EventAttendeeR
 import com.hw.exception.hiem_sreynit_spring_homework03.repository.EventRepository;
 import com.hw.exception.hiem_sreynit_spring_homework03.service.EventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,10 +51,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Event creatEvent(EventRequest request) {
-
-        Boolean exists = eventRepository.existsByEventNameAndEventDate(request.getEventName(), request.getEventDate());
-
-        if (Boolean.TRUE.equals(exists)) {
+        if (Boolean.TRUE.equals(eventRepository.existsByEventNameAndEventDate(request.getEventName(), request.getEventDate()))) {
             throw new DuplicateKeyException("Event name already exists on this date");
         }
 
@@ -90,5 +87,32 @@ public class EventServiceImpl implements EventService {
         }
 
         return eventRepository.deleteEventById(eventId);
+    }
+
+    @Override
+    public Event updateEventById(Integer eventId, EventRequest request) {
+        for (Integer attendeeId : request.getAttendeesIds()) {
+            if (attendeeId == null) {
+                throw new NotFoundException("No venue found with given ID.");
+            }
+        }
+
+        if (request.getVenueId() == null) {
+            throw new NotFoundException("No venue found with given ID.");
+        }
+
+        if (eventRepository.getEventById(eventId) == null) {
+            throw new NotFoundException("No event found with ID " + eventId + ".");
+        }
+
+        eventAttendeeRepository.deleteAttendeeByEventId(eventId);
+
+        for (Integer attendeeId : request.getAttendeesIds()) {
+            eventAttendeeRepository.insertIntoEventAndAttendee(eventId, attendeeId);
+        }
+
+        Event event = eventRepository.updateEventById(eventId, request);
+
+        return eventRepository.getEventById(event.getEventId());
     }
 }

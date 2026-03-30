@@ -29,7 +29,7 @@ public interface EventRepository {
 
     @ResultMap("eventMapper")
     @Select("""
-                SELECT * FROM events WHERE event_id = #{eventId}
+                SELECT * FROM events WHERE event_id = #{eventId};
             """)
     Event getEventById(Integer eventId);
 
@@ -56,4 +56,12 @@ public interface EventRepository {
         DELETE FROM events WHERE event_id = #{eventId};
     """)
     Event deleteEventById(Integer eventId);
+
+
+    @ResultMap("eventMapper")
+    @Select("""
+        UPDATE events SET event_name = #{req.eventName}, event_date = #{req.eventDate}::date, venue_id = #{req.venueId} RETURNING *;
+    """)
+    Event updateEventById(Integer eventId, @Param("req") EventRequest request);
+
 }

@@ -15,4 +15,6 @@ public interface EventService {
     Event creatEvent(EventRequest request);
 
     Event deleteEventById(Integer eventId);
+
+    Event updateEventById(Integer eventId, EventRequest request);
 }

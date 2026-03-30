@@ -1,6 +1,13 @@
 package com.hw.exception.hiem_sreynit_spring_homework03.model.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record AttendeeRequest (
-        String attendeeName, String email
-) {}
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class AttendeeRequest {
+    private String attendeeName;
+    private String email;
+}
